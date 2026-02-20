@@ -9,12 +9,11 @@
   --secbackground: #ffffff;
   --border: #e5e7eb;
 
-  --text: #1f2933;
+  --text: #111827;
   --secText: #6b7280;
 
-  --over: grey;
-  --special: #2563eb;
-
+  --over: #4b5563; 
+  --special: #1d4ed8;
 }
 
 body {
@@ -25,22 +24,28 @@ body {
   line-height: 1.6;
 }
 
-/* Alignment Components */
-
-main {
+/* Structure: Make a main column and split into 2 */
+main.columns {
   display: flex;
-  max-width: 60%;
+  gap: 2rem;
+  max-width: 1100px;
   margin: 3rem auto;
   padding: 0 1.5rem;
+  align-items: flex-start;
 }
 
-main .left-grid {
-  flex: 2;
-  margin-right: 2rem;
+.col-left {
+  flex: 0 0 347px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
-main .right-grid {
-  flex: 3;
+.col-right {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 /* Basic Components */
@@ -125,6 +130,7 @@ section#profile .profile-photo{
   border-radius: 50%;
   object-fit: cover;
   display: block;
+  border: 2px solid var(--border);
 }
 
 section#profile .contact-list{
@@ -151,8 +157,71 @@ section#experience .language-switcher {
   gap: 1rem;
 }
 
-section#experience a {
+.language-switcher-mobile {
+  display: none;
+}
+
+section#experience a, section#profile a {
   font-size: 0.9rem;
   text-decoration: none;
   position: static;
 }
+
+/* Mobile: Collapse columns and remove wrappers so sections are direct flow children */
+
+@media (max-width: 768px) {
+  main.columns {
+    flex-direction: column;
+    max-width: 95%;
+    margin: 1.5rem auto;
+    padding: 0 1rem;
+  }
+
+  /* Disappear them so their child sections enter the normal flow */
+  .col-left, .col-right {
+    display: contents;
+  }
+
+  main.columns section {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  /* Profile adjustments */
+  section#profile .profile-photo {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 1rem;
+  }
+
+  section#profile p{
+    text-align: center;
+  }
+
+  section#profile .contact-list{
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  /* Hide desktop language switcher to mobile and show on profile */
+  section#profile .language-switcher-mobile {
+    position: absolute; 
+    top: 1rem; 
+    right: 2rem; 
+    display: flex;
+    gap: 1rem;
+  }
+
+  .language-switcher {
+    display: none !important;
+  }
+}
+
+/* Order utility classes for mobile stacking */
+.order-1 { order: 1 }
+.order-2 { order: 2 }
+.order-3 { order: 3 }
+.order-4 { order: 4 }
+.order-5 { order: 5 }
+.order-6 { order: 6 }
